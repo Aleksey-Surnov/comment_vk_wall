@@ -206,6 +206,7 @@ if __name__ == "__main__":
     print(Fore.GREEN+ 'Комментарий добавлен следующим пользователям:')
     [[print(Fore.GREEN+str(int(j+1))+'. ID: '+str(base[j][0])) if i==0 else print(end='') for i in range(len(base[j]))] for j in range(len(base))]
     # вывести в терминал пользователей которым был добавлен комментарий
+    os.remove('vk_config.v2.json')
     print(Fore.GREEN+'сессия завершилась')
 
 

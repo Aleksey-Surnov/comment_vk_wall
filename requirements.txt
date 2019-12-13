@@ -1,0 +1,4 @@
+colorama==0.4.1
+getpass4==0.0.8
+tqdm==4.36.1
+vk-api==11.6.0

@@ -181,7 +181,7 @@ if __name__ == "__main__":
     gr=vk.method('groups.search',{'q':name_group, 'sort':0})['items'] # получить группы
     list_users=set(search_users(gr))                                  # вызвать функцию получения ID участников сообщества ВК
 
-    print('длина множества до вычета: '+str(len(list_users)))
+    #print('длина множества до вычета: '+str(len(list_users)))
 
     while True:
         print(Fore.BLUE+'------------------------------------------------------------------------')
@@ -200,7 +200,7 @@ if __name__ == "__main__":
 
     list_users=list(list_users)
 
-    print('длина множества после вычета: ' + str(len(list_users)))
+    #print('длина множества после вычета: ' + str(len(list_users)))
 
     create_comments(list_users, cap_params = None, count=0) # вызвать функцию создания комментария на стене
     with open('data_base.csv', 'a') as resultFile:          # открыть в файл базы данных пользователей которым в данную сессию был отправлен комментарий на стену

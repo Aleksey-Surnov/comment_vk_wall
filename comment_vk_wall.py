@@ -12,7 +12,7 @@ def get_access_token(login='', password='', access_token=0):                    
     try:
         User = VK.users.get()
     except:
-        print(Fore.RED+"Error") # вывод ошибки
+        print(Fore.RED+"Error")                                                     # вывод ошибки
     else:
         print(f"\nHello {User[0]['first_name']}")                                   # приветствие пользователю, авторизация прошла успешно
         with open('vk_config.v2.json', 'r') as data_file:                           # открыть файл на чтение

@@ -14,7 +14,7 @@ def get_access_token(login='', password='', access_token=0):                    
     except:
         print(Fore.RED+"Error")                                                     # вывод ошибки
     else:
-        print(f"\nHello {User[0]['first_name']}")                                   # приветствие пользователю, авторизация прошла успешно
+        print(f"\nHello {User[0]['first_name']}")                                   
         with open('vk_config.v2.json', 'r') as data_file:                           # открыть файл на чтение
             data = json.load(data_file)
         for x in data[login]['token'].keys():
@@ -62,7 +62,7 @@ def create_comments(list_users=[], cap_params = None, count=0):             # ф
         try:
             first_name = get_user_name(info_user)
             info_wall = vk.method('wall.get', {'owner_id':info_user, 'count':1})['items'][0] # получить самую последнюю запись на стене
-            time.sleep(1)                                                                    # исключить слишком частое обращение к API ВК
+            time.sleep(random.SystemRandom().choice(time_list))                              # исключить слишком частое обращение к API ВК
             if info_wall['comments']['can_post'] == 1:                                       # если стена открыта для комментирования
                 if not cap_params:
                     vk.method('wall.createComment',{'owner_id':info_user, 'post_id': info_wall['id'], 'message':str(random.SystemRandom().choice(salut))+' '+first_name+'.'+' '+comment}) # отправить комментарий под записью
@@ -81,7 +81,8 @@ def create_comments(list_users=[], cap_params = None, count=0):             # ф
                     result.append(str(time.strftime("%Y-%m-%d")))
                     base.append(result)
             else:
-                time.sleep(0.5)                                             # исключить слишком частое обращение к API ВК
+                time.sleep(random.SystemRandom().choice(time_list))
+                # исключить слишком частое обращение к API ВК. Взять случайное число из списка time_list
                 continue
         except vk_api.Captcha as vk_error:                                  # получение капчи
             cap_img, cap_sid = vk_error.url, vk_error.sid
@@ -98,7 +99,7 @@ def create_comments(list_users=[], cap_params = None, count=0):             # ф
                 break                                                       # в случае запрета использовать методы API прервать сессию и выйти из функции
             else:
                 print(Fore.BLUE +'пользователь закрыл стену для комментариев или профиль является приватным  ' + '. ID: ' + str(info_user))
-                continue                                                     # в случае возникнвения другой ошибки продолжить сессию
+                continue                                                    # в случае возникнвения другой ошибки продолжить сессию
         except IndexError:
             continue
     return base
@@ -180,7 +181,7 @@ if __name__ == "__main__":
 
     gr=vk.method('groups.search',{'q':name_group, 'sort':0})['items'] # получить группы
     list_users=set(search_users(gr))                                  # вызвать функцию получения ID участников сообщества ВК
-
+    time_list=[0.8, 1.2, 2, 0.35, 2.8, 3.5, 7, 2.7, 10]               # список времени задержки в сек.
     #print('длина множества до вычета: '+str(len(list_users)))
 
     while True:
@@ -193,9 +194,9 @@ if __name__ == "__main__":
         past_id=get_base()
 
         if quest_use_base(quest_use)==True:
-            list_users=list_users-past_id            # удаление пользователей из найденного множества если ранее им отправлялся комментарий с данной страницы
+            list_users=list_users-past_id                   # удаление пользователей из найденного множества если ранее им отправлялся комментарий с данной страницы
             break
-        elif quest_use_base(quest_use)==False: break # не использовать базу данных
+        elif quest_use_base(quest_use)==False: break        # не использовать базу данных
         else: print(Fore.RED+'Ошибка ввода: вы ввели '+quest_use+'. Пожалуйста попробуйте снова') # в случае если пользователь ошибся при вводе повторить запрос
 
     list_users=list(list_users)
